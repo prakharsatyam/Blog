@@ -38,36 +38,69 @@ function Header() {
     },
   ];
   return (
-    <header className="py-3 shadow bg-gray-500 w-full">
-      <Container>
-        <nav className="flex">
-          <div className="mr-4">
-            <Link to="/">
-              <Logo width="70px" />
-            </Link>
-          </div>
-          <ul className="flex ml-auto">
-            {navItems.map((item) =>
-              item.active ? (
-                <li key={item.name}>
-                  <button
-                    onClick={() => {navigate(item.slug); buttonclick(item.name);}}
-                    className={`inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full ${activeButton===item.name?'bg-slate-400': null}`}
-                  >
-                    {item.name}
-                  </button>
-                </li>
-              ) : null
-            )}
-            {authStatus && (
-              <li>
-                <LogoutBtn/>
-              </li>
-            )}
-          </ul>
-        </nav>
-      </Container>
-    </header>
+    // <header className="py-3 shadow bg-gray-500 w-full max-w-full ">
+    //   <Container>
+    //     <nav className="flex">
+    //       <div className="mr-4">
+    //         <Link to="/">
+    //           <Logo width="70px" />
+    //         </Link>
+    //       </div>
+    //       <ul className="flex ml-auto">
+    //         {navItems.map((item) =>
+    //           item.active ? (
+    //             <li  key={item.name}>
+    //               <button
+    //                 onClick={() => {navigate(item.slug); buttonclick(item.name);}}
+    //                 className={`inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full ${activeButton===item.name?'bg-slate-400': null}`}
+    //               >
+    //                 {item.name}
+    //               </button>
+    //             </li>
+    //           ) : null
+    //         )}
+    //         {authStatus && (
+    //           <li >
+    //             <LogoutBtn/>
+    //           </li>
+    //         )}
+    //       </ul>
+    //     </nav>
+    //   </Container>
+    // </header>
+    <header className="py-3 shadow bg-gray-500">
+  <Container>
+    <nav className=" flex flex-col items-center justify-between">
+      <div className="flex items-center">
+        <div className="mr-4">
+          <Link to="/">
+            <Logo width="70px" />
+          </Link>
+        </div>
+      </div>
+      <ul className="flex flex-wrap items-center justify-end ml-auto">
+        {navItems.map((item) =>
+          item.active ? (
+            <li className="mr-4" key={item.name}>
+              <button
+                onClick={() => {navigate(item.slug); buttonclick(item.name);}}
+                className={`px-6 py-2 duration-200 hover:bg-blue-100 rounded-full ${activeButton===item.name?'bg-slate-400': null}`}
+              >
+                {item.name}
+              </button>
+            </li>
+          ) : null
+        )}
+        {authStatus && (
+          <li>
+            <LogoutBtn />
+          </li>
+        )}
+      </ul>
+    </nav>
+  </Container>
+</header>
+
   );
 }
 
