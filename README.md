@@ -14,8 +14,24 @@ The project is structured as follows:
 * **public:** This directory contains static assets that are served directly by the web server, such as images, fonts, and stylesheets.
 * **package.json:** This file lists the project's dependencies and scripts for tasks like starting the development server.
 
-## Technologies Used (if applicable)
+## Technologies Used
 
 * Front-end framework - React.js
 * Back-end - Appwrite
 * Database - Appwrite
+
+## Create your own app
+
+Navigate to the project directory:
+
+```
+cd Blog
+npm install (or yarn install)
+```
+## Running the Project
+
+To start the development server, run the following command:
+
+```npm start ```
+
+This will start the server on a specified port (usually 3000). You can then access the blog at http://localhost:3000 in your web browser.
