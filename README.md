@@ -26,12 +26,13 @@ Navigate to the project directory:
 
 ```
 cd Blog
-npm install (or yarn install)
+npm install
 ```
 ## Running the Project
 
 To start the development server, run the following command:
 
-```npm start ```
+```npm start
+ ```
 
 This will start the server on a specified port (usually 3000). You can then access the blog at http://localhost:3000 in your web browser.
