@@ -6,6 +6,7 @@ import authService from './appwrite/auth';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import { Outlet } from 'react-router-dom';
+import img from '../public/img.png'
 function App() {
   const [loading,setLoading]=useState(true)
   const dispatch = useDispatch()
@@ -22,14 +23,15 @@ function App() {
   }, [])
   
   return !loading ? (
-<div className='min-h-screen flex flex-col justify-between items-center'>
   <div 
-    className='absolute inset-0 w-full h-full bg-cover blur-sm' 
+    className='   flex flex-col justify-between items-center' 
     style={{ 
-      backgroundImage: `url(https://wallpaperwaifu.com/wp-content/uploads/2021/09/starry-night-clouds-thumb.jpg)`, 
-    }}
-  ></div>
-  <div className='relative w-full xl:h-full xl:w-full rounded-2xl p-4 mx-auto flex flex-col justify-center z-10'>
+      backgroundImage: `url(${img})`, 
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'repeat'}}
+  >
+<div className='relative w-full xl:h-full xl:w-full rounded-2xl p-4 mx-auto flex flex-col justify-center z-10'>
     <Header />
     <main className="flex-grow">
       <Outlet />
@@ -38,6 +40,7 @@ function App() {
   </div>
 </div>
 
+  
 
 
 

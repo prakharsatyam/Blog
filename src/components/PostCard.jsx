@@ -6,7 +6,7 @@ import appwriteService from "../appwrite/config";
 function PostCard({ $id, title, featuredImage }) {
   return (
     <Link to={`/post/${$id}`}>
-      <div className="w-auto flex flex-wrap  bg-gradient-to-br from-purple-500 to-transparent border-x-4 border-indigo-500 text-white rounded-xl ">
+      <div className="w-auto flex flex-wrap  bg-gradient-to-br from-purple-500 to-transparent border-y-4 border-indigo-500 text-white rounded-xl ">
         <div className="w-auto justify-center mb-4">
           <img src={appwriteService.getFilePreview(featuredImage)}
            alt={title}
