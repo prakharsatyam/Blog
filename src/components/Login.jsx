@@ -32,7 +32,7 @@ function Login() {
   return (
     <div className="flex items-center justify-center w-full py-20">
       <div
-        className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}
+        className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-20 border border-black/10`}
       >
         <div className="mb-2 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">
@@ -41,7 +41,7 @@ function Login() {
         </div>
         <h2 className="text-center text 2xl font-bold leading-tight">Sign in to your account</h2>
         <p className="mt-2 text-center text-base text-black/60">
-          {/* Don't Have an account?  */}
+           Don&apos;t Have an account?
           <Link 
             to="/signup"
             className="font-medium text-primary transition-all duration-200 hover:underline"
