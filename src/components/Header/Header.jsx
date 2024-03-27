@@ -78,10 +78,10 @@ function Header() {
           </Link>
         </div>
       </div>
-      <ul className="flex flex-wrap items-center justify-end ml-auto">
+      <ul className="flex flex-wrap items-center justify-end ">
         {navItems.map((item) =>
           item.active ? (
-            <li className="mr-4" key={item.name}>
+            <li className="ml-4" key={item.name}>
               <button
                 onClick={() => {navigate(item.slug); buttonclick(item.name);}}
                 className={`px-6 py-2 duration-200 hover:bg-blue-100 rounded-full ${activeButton===item.name?'bg-slate-400': null}`}
