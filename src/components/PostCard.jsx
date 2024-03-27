@@ -6,17 +6,19 @@ import appwriteService from "../appwrite/config";
 function PostCard({ $id, title, featuredImage }) {
   return (
     <Link to={`/post/${$id}`}>
-      <div className="w-36 flex flex-wrap  bg-gray-100 rounded-xl ">
-        <div className="w-36 justify-center mb-4">
+      <div className="w-auto flex flex-wrap  bg-gradient-to-br from-purple-500 to-transparent border-x-4 border-indigo-500 text-white rounded-xl ">
+        <div className="w-auto justify-center mb-4">
           <img src={appwriteService.getFilePreview(featuredImage)}
            alt={title}
             className="rounded-xl"
           />
         </div>
-        <h2 className="flex flex-shrink text-xl font-bold">{title}</h2>
+        <h2 className=" flex flex-shrink text-xl font-bold">{title}</h2>
       </div>
     </Link>
   );
 }
 
 export default PostCard;
+
+

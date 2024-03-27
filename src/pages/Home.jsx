@@ -16,7 +16,7 @@ function Home() {
                 <Container>
                     <div className='flex flex-wrap'>
                         <div className='p-2 w-full'>
-                            <h1 className=' text-2xl font-bold hover:text-gray-500'>
+                            <h1 className=' text-2xl text-white font-bold hover:text-gray-500 animate-bounce'>
                                 Loading...
                             </h1>
                         </div>
@@ -26,11 +26,11 @@ function Home() {
         )
     }
   return (
-<div className='w-full py-8'>
+<div className="py-8">
   <Container>
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {posts.map((post) => (
-        <div key={post.$id} className='p-2'>
+        <div key={post.$id} className="p-4">
           <PostCard {...post} />
         </div>
       ))}
@@ -54,3 +54,18 @@ export default Home
 //         </div>
 //     </Container>
 // </div>
+
+
+/* <div className='w-full py-8'>
+  <Container>
+    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4'>
+      {posts.map((post) => (
+        <div key={post.$id} className='p-2  hover:transition delay-150 duration-300 ease-in-out'>
+          <PostCard {...post} />
+        </div>
+      ))}
+    </div>
+  </Container>
+</div> */
+
+// https://www.youtube.com/watch?v=rqJDO3TWnac

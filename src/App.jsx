@@ -22,16 +22,22 @@ function App() {
   }, [])
   
   return !loading ? (
-<div className='min-h-screen flex flex-col justify-between items-center bg-gradient-to-r from-black to-indigo-950 p-10'>
-  <div className='w-full xl:h-full xl:w-full bg-gray-400 rounded-2xl p-4 mx-auto flex flex-col justify-center'>
+<div className='min-h-screen flex flex-col justify-between items-center'>
+  <div 
+    className='absolute inset-0 w-full h-full bg-cover blur-sm' 
+    style={{ 
+      backgroundImage: `url(https://wallpaperwaifu.com/wp-content/uploads/2021/09/starry-night-clouds-thumb.jpg)`, 
+    }}
+  ></div>
+  <div className='relative w-full xl:h-full xl:w-full rounded-2xl p-4 mx-auto flex flex-col justify-center z-10'>
     <Header />
     <main className="flex-grow">
       <Outlet />
     </main>
     <Footer />
   </div>
-
 </div>
+
 
 
 
