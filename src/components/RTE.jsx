@@ -6,7 +6,7 @@ import { Controller } from "react-hook-form";
 export default function RTE({ name, control, label, defaultValue = "" }) {
   return (
     <div className="w-full">
-      {label && <label className="inline-block mb-1 pl-1">{label}</label>}
+      {label && <label className="inline-block mb-1 pl-1 text-white">{label}</label>}
       <Controller
         name={name || "content"}
         control={control} //here we are tracking what type of things can happen and when to inform me about this here we are tracking using in change so that if any changes occur to the fields inform me and i will take actions accordingly
