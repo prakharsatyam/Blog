@@ -36,6 +36,11 @@ function Header() {
       slug: "/add-post",
       active: authStatus,
     },
+    {
+      name:"portfolio",
+      slug:"/portfolio",
+      active:true
+    }
   ];
   return (
     <header className="py-3 shadow bg-gradient-to-t text-white from-zinc-900 to-transparent rounded-3xl ">

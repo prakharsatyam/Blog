@@ -24,14 +24,14 @@ function App() {
   
   return !loading ? (
   <div 
-    className='h-screen flex flex-col justify-between items-center' 
+    className=' flex flex-col justify-between items-center' 
     style={{ 
       backgroundImage: `url(${img})`, 
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'repeat'}}
   >
-<div className=' h-screen relative w-full xl:h-full xl:w-full rounded-2xl p-4 mx-auto flex flex-col justify-center z-10'>
+<div className=' relative w-full xl:h-full xl:w-full rounded-2xl p-4 mx-auto flex flex-col justify-center z-10'>
     <Header />
     <main className="flex-grow">
       <Outlet />
