@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.0.1",
     "@tinymce/tinymce-react": "^4.3.2",
     "appwrite": "^13.0.2",
+    "axios": "^1.7.2",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.14",
     "html-react-parser": "^5.0.11",

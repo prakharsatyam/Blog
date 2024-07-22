@@ -40,6 +40,11 @@ function Header() {
       name:"portfolio",
       slug:"/portfolio",
       active:true
+    },
+    {
+      name:"Playlister",
+      slug:"/playlister",
+      active:true
     }
   ];
   return (
