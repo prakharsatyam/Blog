@@ -32,14 +32,14 @@ function Playlister() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-6">
-      <div className="max-w-4xl mx-auto bg-gray-800 shadow-md rounded-lg p-6">
+    <div className="min-h-screen  text-gray-200 p-6">
+      <div className="max-w-4xl mx-auto bg-gray-800/400 shadow-md rounded-lg p-6">
         <div className="mb-6">
           <form onSubmit={handleSubmit(onSub)} className="flex space-x-4">
             <input
               placeholder="Enter your playlist link"
               {...register("id")}
-              className="border rounded p-2 flex-1 bg-gray-700 text-gray-200"
+              className="border rounded p-2 flex-1 bg-gray-700 text-gray-200 "
             />
             
             <button
