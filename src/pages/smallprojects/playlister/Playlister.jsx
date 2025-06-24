@@ -2,13 +2,14 @@ import { useForm } from "react-hook-form";
 import Video from "./Video.jsx";
 import fetchPlaylistItems from "./fetchItems.js";
 import { useEffect, useState } from "react";
-
+import conf from "../../../conf/conf.js";
 function Playlister() {
-  const apikey = "AIzaSyCaX2SsKLtQ98ChOEoQF_Wb6m_JcPzksmA";
+  const apikey = conf.ytApiKey;
   const [nextPageToken, setnextPageToken] = useState("");
   const [videos, setVideos] = useState([]);
   const [playlist, setplaylist] = useState('')
   const { register, handleSubmit } = useForm();
+  console.log(conf.ytApiKey);
   const onSub = (data) => {setplaylist(data.id.slice(data.id.indexOf('=') + 1))
     
   };
