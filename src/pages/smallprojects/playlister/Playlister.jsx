@@ -9,7 +9,6 @@ function Playlister() {
   const [videos, setVideos] = useState([]);
   const [playlist, setplaylist] = useState('')
   const { register, handleSubmit } = useForm();
-  console.log(conf.ytApiKey);
   const onSub = (data) => {setplaylist(data.id.slice(data.id.indexOf('=') + 1))
     
   };
