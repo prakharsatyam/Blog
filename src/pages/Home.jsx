@@ -1,45 +1,51 @@
-import {useEffect,useState} from 'react'
-import appwriteService from '../appwrite/config'
-import { Container,PostCard } from '../components'
-function Home() {
-    const [posts, setposts] = useState([])
-    
-    useEffect(() => {
-    appwriteService.getPosts().then((posts)=>{
-        if (posts) {
-            setposts(posts.documents)
-        }
-    })},[])
-    if (posts.length===0) {
-        return (
-            <div className='w-full py-8 mt-4 text-center'>
-                <Container>
-                    <div className='flex flex-wrap'>
-                        <div className='p-2 w-full'>
-                            <h1 className=' text-2xl text-white font-bold hover:text-gray-500 animate-bounce'>
-                                Loading...
-                            </h1>
-                        </div>
-                    </div>
-                </Container>
-            </div>
-        )
-    }
-  return (
-<div className="py-8">
-  <Container>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {posts.map((post) => (
-        <div key={post.$id} className="p-4">
-          <PostCard {...post} />
-          {/* {console.log(post)} */}
-        </div>
-      ))}
-    </div>
-  </Container>
-</div>
+// Home page entry composing all portfolio modules
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts } from '../store/blogSlice';
 
-  )
+import Navbar from '../components/Portfolio/Navbar';
+import HeroSection from '../components/Portfolio/HeroSection';
+import AboutSection from '../components/Portfolio/AboutSection';
+import ServicesSection from '../components/Portfolio/ServicesSection';
+import ProjectsSection from '../components/Portfolio/ProjectsSection';
+import BlogSection from '../components/Portfolio/BlogSection';
+import ContactSection from '../components/Portfolio/ContactSection';
+import FooterSection from '../components/Portfolio/FooterSection';
+import CoderBackground from '../components/Portfolio/CoderBackground';
+import AboutMe from '../components/Portfolio/AboutMe';
+
+function Home() {
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.blog);
+
+  useEffect(() => {
+    dispatch(fetchPosts(false)); // Fetch cache-first
+  }, [dispatch]);
+
+  // Filter posts to show only those with featured flag on the homepage
+  const featuredPosts = posts ? posts.filter((post) => post.featured === true) : [];
+
+  return (
+    <div className="bg-cream min-h-screen text-ink overflow-hidden relative">
+      {/* Dynamic Coder background running fixed behind the page */}
+      <CoderBackground />
+
+      <Navbar />
+      <HeroSection />
+      
+      {/* AboutMe placed directly below HeroSection */}
+      <AboutMe />
+
+      <ServicesSection />
+      <ProjectsSection />
+      
+      {/* Blog section passed only featured posts cached in state */}
+      <BlogSection posts={featuredPosts} />
+      
+      <ContactSection />
+      <FooterSection />
+    </div>
+  );
 }
 
-export default Home
+export default Home;

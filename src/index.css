@@ -1,3 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
-@tailwind utilities;  
+@tailwind utilities;
+
+/* ─── Design Tokens ─── */
+:root {
+  --color-cream: #121212;
+  --color-cream-dark: #1a1a1a;
+  --color-ink: #f8f9fa;
+  --color-ink-light: #f8f9fa99;
+  --color-ink-muted: #f8f9fa4d;
+  --color-accent: #ff6b8b;
+  --color-surface-dark: #242424;
+
+  --font-heading: 'Archivo', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ─── Base Resets ─── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-cream);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: white;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-cream-dark);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-muted);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-light);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* ─── Utility Classes ─── */
+@layer components {
+  .section-padding {
+    @apply px-6 md:px-12 lg:px-20 xl:px-32;
+  }
+
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-md border border-ink-faint rounded-2xl;
+  }
+
+  .dark-card {
+    @apply bg-surface-dark rounded-2xl border border-white/5;
+  }
+
+  .pill-tag {
+    @apply px-4 py-1.5 rounded-full text-sm font-medium border transition-all duration-300;
+  }
+
+  .pill-tag-light {
+    @apply pill-tag bg-cream border-ink/10 text-ink;
+  }
+
+  .pill-tag-dark {
+    @apply pill-tag bg-white/10 border-white/10 text-white/80;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent to-pink-400 bg-clip-text text-transparent;
+  }
+
+  /* Divider line used in services section */
+  .divider {
+    @apply w-full h-px bg-ink/10;
+  }
+
+  .divider-dark {
+    @apply w-full h-px bg-white/10;
+  }
+}
+
+/* ─── Animation Utilities ─── */
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+  .animate-delay-700 { animation-delay: 700ms; }
+  .animate-delay-1000 { animation-delay: 1000ms; }
+
+  /* Hide scrollbar for overlay nav */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ─── Decorative Elements ─── */
+.deco-star {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #111 0%, #333 40%, #8b5cf6 70%, #111 100%);
+  clip-path: polygon(
+    50% 0%, 61% 35%, 100% 38%, 68% 59%,
+    79% 100%, 50% 72%, 21% 100%, 32% 59%,
+    0% 38%, 39% 35%
+  );
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.deco-cursor {
+  width: 40px;
+  height: 50px;
+  background: linear-gradient(135deg, #111 0%, #555 30%, #8b5cf6 60%, #111 100%);
+  clip-path: polygon(0% 0%, 100% 50%, 35% 50%, 55% 100%, 30% 100%, 15% 55%, 0% 55%);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+/* ─── Page Transition Smoothness ─── */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+
+.section-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

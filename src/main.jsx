@@ -44,9 +44,8 @@ const router = createBrowserRouter([
       {
         path: "/all-posts",
         element: (
-          <AuthLayout authentication>
-            <AllPosts/>
-          </AuthLayout>
+          // Scrapped the authentication restriction for viewing all posts as requested
+          <AllPosts/>
         ),
       },
       {
@@ -68,17 +67,14 @@ const router = createBrowserRouter([
       {
         path: "/post/:slug",
         element: <Post/>,
-      },{
-        path: "/portfolio",
-        element: (
-            <Portfolio/>
-        ),
+      },
+      {
+        path: "/playground",
+        element: <Portfolio/>,
       },
       {
         path: "/playlister",
-        element: (
-            <Playlister/>
-        ),
+        element: <Playlister/>,
       },
     ],
   },

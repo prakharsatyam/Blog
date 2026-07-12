@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import appwriteService from "../appwrite/config";
-import { Button, Container } from "../components";
-import parse from "html-react-parser";
-import { useSelector } from "react-redux";
-import { ArrowLeft, MessageSquare, User, Calendar, Tag } from "lucide-react";
+const { Client, Account, Databases, Storage, ID, Permission, Role } = require('node-appwrite');
+const { InputFile } = require('node-appwrite/file');
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-// Extremely detailed long-form technical blogs based on Prakhar's profile & conversations
 const detailedStaticBlogs = {
   'agentic-research-intelligence': {
     title: 'Building an 8-Agent RAG Intelligence Factory',
     date: 'June 20, 2026',
     category: 'AI & Agentic Engineering',
-    featuredImage: '/blog_platform.png', // Fallback to our clean blog asset
+    featuredImage: 'blog_platform.png',
     content: `
       <p>As enterprise data volumes grow exponentially, manual synthesis of analyst reports, industry feeds, and internal documentation becomes a major bottleneck. During the internal TCS <strong>AI Friday Season 2 Hackathon</strong> in June 2026, I set out to solve this by building an autonomous multi-agent pipeline designed to digest unstructured research documents and extract confidence-scored insights.</p>
       
@@ -45,7 +42,7 @@ const detailedStaticBlogs = {
     title: 'Local LLM Benchmarks: MacBook M2 Air vs. RTX i9 Laptop',
     date: 'May 15, 2026',
     category: 'Hardware & AI Models',
-    featuredImage: '/psbuilder.png',
+    featuredImage: 'psbuilder.png',
     content: `
       <p>As an engineer building agentic systems, running models locally is essential for privacy, cost control, and rapid prototyping. I regularly run experiments comparing two very different development machines: a highly portable <strong>MacBook M2 Air (16GB RAM)</strong> and a heavy-duty <strong>Intel Core i9-14900HX laptop (32GB RAM, RTX GPU)</strong>. Here is what I discovered when running local models using Ollama, OpenClaw, and DeepSeek.</p>
 
@@ -76,7 +73,7 @@ const detailedStaticBlogs = {
     title: 'Modernizing Legacy: Zero-Loss Oracle Web ADI Pipelines',
     date: 'March 10, 2026',
     category: 'Enterprise Engineering',
-    featuredImage: '/asd_detection.png',
+    featuredImage: 'asd_detection.png',
     content: `
       <p>Modern full-stack web applications often exist in clean, greenfield environments. However, enterprise systems operate on decades-old infrastructure. At Tata Consultancy Services (TCS) in Bengaluru, I had the opportunity to build a custom integration pipeline resolving validation bottlenecks in <strong>Oracle E-Business Suite (EBS) R12</strong>.</p>
 
@@ -107,114 +104,88 @@ const detailedStaticBlogs = {
   }
 };
 
-export default function Post() {
-    const [post, setPost] = useState(null);
-    const { slug } = useParams();
-    const navigate = useNavigate();
+const run = async () => {
+  const client = new Client()
+    .setEndpoint(process.env.VITE_APPWRITE_URL)
+    .setProject(process.env.VITE_APPWRITE_PROJECT_ID);
 
-    const userData = useSelector((state) => state.auth.userData);
-    const isAuthor = post && userData ? post.userId === userData.$id : false;
+  const account = new Account(client);
+  const databases = new Databases(client);
+  const storage = new Storage(client);
 
-    // Check if the current route belongs to a static blog
-    const isStaticBlog = Object.keys(detailedStaticBlogs).includes(slug);
-    const staticBlogData = isStaticBlog ? detailedStaticBlogs[slug] : null;
+  const bucketId = process.env.VITE_APPWRITE_BUCKET_ID;
+  const databaseId = process.env.VITE_APPWRITE_DATABASE_ID;
+  const collectionId = process.env.VITE_APPWRITE_COLLECTION_ID;
 
+  let session;
+  try {
+    console.log("Logging in as admin@sociohub.com...");
+    session = await account.createEmailPasswordSession('admin@sociohub.com', 'password');
+    client.setSession(session.secret);
+    console.log("Logged in and session set!");
+  } catch (err) {
+    console.error("Login failed:", err.message);
+    process.exit(1);
+  }
 
+  const userId = session.userId;
+  console.log(`User ID: ${userId}`);
 
-    useEffect(() => {
-        if (slug) {
-            if (isStaticBlog) {
-                // For static blogs, we simply use our local structured data
-                setPost({
-                    title: staticBlogData.title,
-                    content: staticBlogData.content,
-                    featuredImage: staticBlogData.featuredImage,
-                    category: staticBlogData.category,
-                    $createdAt: new Date(staticBlogData.date).toISOString(),
-                });
-            } else {
-                appwriteService.getPost(slug).then((post) => {
-                    if (post) setPost(post);
-                    else navigate("/");
-                });
-            }
-        } else navigate("/");
-    }, [slug, navigate, isStaticBlog, staticBlogData]);
+  for (const [slug, data] of Object.entries(detailedStaticBlogs)) {
+    console.log(`\n--- Processing Post: ${data.title} ---`);
 
-    const deletePost = () => {
-        if (isStaticBlog) return;
-        appwriteService.deletePost(post.$id).then((status) => {
-            if (status) {
-                appwriteService.deleteFile(post.featuredImage);
-                navigate("/");
-            }
-        });
-    };
+    const imagePath = path.resolve(__dirname, '..', 'public', data.featuredImage);
+    let fileId;
 
+    if (fs.existsSync(imagePath)) {
+      console.log(`Uploading image ${data.featuredImage}...`);
+      try {
+        const fileResponse = await storage.createFile(
+          bucketId,
+          ID.unique(),
+          InputFile.fromPath(imagePath, data.featuredImage),
+          [Permission.read(Role.any())] // Public read
+        );
+        fileId = fileResponse.$id;
+        console.log(`Image uploaded successfully. File ID: ${fileId}`);
+      } catch (err) {
+        console.error("Failed to upload image:", err.message);
+        continue;
+      }
+    } else {
+      console.log(`Image not found at ${imagePath}, skipping post.`);
+      continue;
+    }
 
-    return post ? (
-        <div className="py-12 bg-cream min-h-screen text-ink">
-            <Container>
-                {/* Back Navigation */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-8 flex items-center gap-2 text-ink-light hover:text-ink transition-colors font-inter text-sm font-medium group"
-                >
-                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                    Back
-                </button>
+    try {
+      console.log(`Creating database document for post ${slug}...`);
+      
+      const permissions = [
+          Permission.read(Role.any()), 
+          Permission.update(Role.any()), 
+          Permission.delete(Role.any())
+      ];
 
-                {/* Article Header */}
-                <div className="max-w-4xl mx-auto mb-10">
-                    <div className="flex items-center gap-2 mb-3">
-                        <Tag size={14} className="text-accent" />
-                        <span className="text-xs font-semibold text-accent uppercase tracking-wider">
-                            {post.category || 'Engineering'}
-                        </span>
-                        <span className="text-ink-muted text-xs">•</span>
-                        <Calendar size={14} className="text-ink-light" />
-                        <span className="text-xs text-ink-light font-medium">
-                            {staticBlogData ? staticBlogData.date : new Date(post.$createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                        </span>
-                    </div>
-                    <h1 className="font-archivo text-heading-2 md:text-heading-1 text-ink mb-4">
-                        {post.title}
-                    </h1>
-                    <div className="w-full h-px bg-ink/10 my-6" />
-                </div>
+      await databases.createDocument(
+        databaseId,
+        collectionId,
+        slug, // Using the slug as Document ID
+        {
+          title: data.title,
+          content: data.content,
+          featuredImage: fileId,
+          status: 'active',
+          userId: userId,
+        },
+        permissions
+      );
+      console.log(`Post created successfully!`);
+    } catch (err) {
+      console.error("Failed to create post document:", err.message);
+    }
+  }
 
-                {/* Hero Feature Image */}
-                <div className="max-w-4xl mx-auto w-full flex justify-center mb-10 relative rounded-3xl overflow-hidden bg-cream-dark shadow-xl">
-                    <img
-                        src={isStaticBlog ? post.featuredImage : appwriteService.getFilePreview(post.featuredImage)}
-                        alt={post.title}
-                        className="w-full object-cover max-h-[500px]"
-                    />
+  console.log("\n✅ Seeding complete!");
+};
 
-                    {isAuthor && !isStaticBlog && (
-                        <div className="absolute right-6 top-6 flex gap-2">
-                            <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="text-white hover:bg-green-600 transition-colors">
-                                    Edit
-                                </Button>
-                            </Link>
-                            <Button bgColor="bg-red-500" className="text-white hover:bg-red-600 transition-colors" onClick={deletePost}>
-                                Delete
-                            </Button>
-                        </div>
-                    )}
-                </div>
-
-                {/* Content */}
-                <div className="max-w-3xl mx-auto mb-16">
-                    <div className="browser-css font-inter text-lg leading-relaxed text-ink/80 prose prose-lg prose-ink">
-                        {isStaticBlog ? parse(post.content) : parse(post.content)}
-                    </div>
-                </div>
-
-                <div className="max-w-3xl mx-auto w-full h-px bg-ink/10 my-12" />
-
-            </Container>
-        </div>
-    ) : null;
-}
+run();

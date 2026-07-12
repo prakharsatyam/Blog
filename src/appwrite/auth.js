@@ -40,6 +40,7 @@ import { Client, Account, ID } from "appwrite";
       return loginResponse;
     } catch (error) {
       console.log("Login Error :", error);
+      throw error;
     }
   }
   async getCurrentUser() {
