@@ -80,7 +80,7 @@
   }
 
   .pill-tag-light {
-    @apply pill-tag bg-cream border-ink/10 text-ink;
+    @apply pill-tag bg-cream border-ink border-opacity-10 text-ink;
   }
 
   .pill-tag-dark {
@@ -92,13 +92,8 @@
   }
 
   /* Divider line used in services section */
-  .divider {
-    @apply w-full h-px bg-ink/10;
-  }
-
-  .divider-dark {
-    @apply w-full h-px bg-white/10;
-  }
+  .divider { @apply w-full h-px bg-ink bg-opacity-10; }
+  .divider-dark { @apply w-full h-px bg-white bg-opacity-10; }
 }
 
 /* ─── Animation Utilities ─── */
